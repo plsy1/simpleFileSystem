@@ -1,17 +1,24 @@
 #ifndef __FUNCTION__
 #define __FUNCTION__
+
 void format();
 void init();
+
 int createFile(char* filename);
-int deleteDir(char* dirname);
+int deleteFile(char* filename);
+
 int createDir(char* dirname);
-int cd_(char* dirname);
-void exitsys();
-void ls_();
-int rm_(char* filename);
+int deleteDir(char* dirname);
+
+int changeDirectory(char* dirname);
+void showList();
+
 int openFile(char* filename);
+int closeFile(int fd);
+
 int writeTo(int fd, int* sumlen);
 int readFrom(int fd, int* sumlen);
+
 char* getPwd();
-int closeFile(int fd);
+void exitsys();
 #endif

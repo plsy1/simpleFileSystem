@@ -7,8 +7,8 @@
 /*盘块各个部分位置的相关配置*/
 #define FAT_ITEM_SIZE 2      // FAT表项大小(字节)
 #define FAT_ITEM_NUM 1024    // FAT表项数
-#define FCB_SIZE 24          // FCB大小(字节)
-#define FCB_ITEM_NUM 42      // FCB大小
+#define FCB_SIZE 20          // FCB大小(字节)
+#define FCB_ITEM_NUM 51      // FCB条目数
 #define FAT1_INIT_BLOCK 1    // FAT1起始盘块位置(盘块号)
 #define FAT2_INIT_BLOCK 3    // FAT2起始盘块位置(盘块号)
 #define ROOT_FCB_LOCATION 5  // 根目录FCB位置(盘块号)

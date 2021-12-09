@@ -25,6 +25,7 @@ char **split(char *string, char *delimiters, int *num) {
     *num = a - 1;
   return result;
 }
+
 char *trim(char *str) {
   int len = 0;
   char *temp = str;

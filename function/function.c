@@ -10,7 +10,7 @@
 #include "../global/global.h"
 #include "../util/disk.h"
 //删除文件
-int rm_(char *filename) {
+int deleteFile(char *filename) {
   //找到要删除文件在其父目录的FCBlist中的下标
   int offset = findFCBInBlockByName(filename, presentFCB.base);
   //下标小于0,即当前目录下不存在这个文件
@@ -49,8 +49,10 @@ int rm_(char *filename) {
   }
 }
 
+//退出系统
 void exitsys() { fclose(DISK); }
 
+//格式化磁盘文件
 void format() {
   //初始化引导块
   strcpy(blockZero.id, "FORMAT");  //设置初始化标志
@@ -91,6 +93,7 @@ void format() {
   rewriteFAT();
 }
 
+//载入已有磁盘，若不存在则创建
 void init() {
   int fd;
   // O_CREAT 如果指定文件不存在，則創建這個文件
@@ -138,6 +141,7 @@ void init() {
   return;
 }
 
+//创建文件
 int createFile(char *filename) {
   if (strlen(filename) > FILE_NAME_LEN) {
     printf("Create failed, File name is too long\n");
@@ -176,7 +180,9 @@ int createFile(char *filename) {
   return 0;
 }
 
-void ls_() {
+//列出当前目录下的文件
+void showList() {
+  char *type[2] = {"file", "directory"};
   int blocknum = presentFCB.base;
   lslink *FCBListhead, *temp;
   FCBList FL, *Fnode;
@@ -192,6 +198,7 @@ void ls_() {
   }
 }
 
+//将文件添加到文件打开表
 int openFile(char *filename) {
   int fd;
   fd = findfdByNameAndDir(filename, pwd);
@@ -226,12 +233,13 @@ int openFile(char *filename) {
   }
 }
 
+//往文件写数据
 int writeTo(int fd, int *sumlen) {
   if (fd >= MAX_FD_NUM || fd < 0) {  //判断fd合法性
     printf("close: invalid fd\n");
     return -1;
   } else {
-    if (uopenlist[fd].topenfile == FREE) {  //判断是否已经关闭
+    if (uopenlist[fd].topenfile == FREE) {  //判断文件是否已经打开
       printf("write: cannot write to fd ‘%d’: fd %d is already close\n", fd,
              fd);
       return -1;
@@ -318,6 +326,7 @@ int writeTo(int fd, int *sumlen) {
   }
 }
 
+//从文件读出数据并打印
 int readFrom(int fd, int *sumlen) {
   if (fd >= MAX_FD_NUM || fd < 0) {
     printf("read: invalid fd\n");
@@ -344,8 +353,10 @@ int readFrom(int fd, int *sumlen) {
   }
 }
 
+//返回当前目录路径
 char *getPwd() { return pwd; }
 
+//创建目录
 int createDir(char *dirname) {
   //判断文件名长度
   if (strlen(dirname) > FILE_NAME_LEN) {
@@ -384,6 +395,7 @@ int createDir(char *dirname) {
   rewriteFAT();
 }
 
+//删除目录
 int deleteDir(char *dirname) {
   //检查是否有这个目录
   int offset;
@@ -425,7 +437,8 @@ int deleteDir(char *dirname) {
   }
 }
 
-int cd_(char *dirname) {
+//切换目录
+int changeDirectory(char *dirname) {
   int offset;
   if ((offset = findFCBInBlockByName(dirname, presentFCB.base)) < 0) {
     printf("cd: %s: No such file or directory\n", dirname);
@@ -457,6 +470,7 @@ int cd_(char *dirname) {
   }
 }
 
+//关闭文件
 int closeFile(int fd) {
   if (fd >= MAX_FD_NUM || fd < 0) {
     printf("close: invalid fd\n");

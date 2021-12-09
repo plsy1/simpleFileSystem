@@ -47,7 +47,7 @@ void help() {
   printf("%-10s - %s\n", "exit", "退出");
 }
 
-int doOperation(int argc, char** argv) {
+int command(int argc, char** argv) {
   if (strcmp(argv[0], "exit") == 0) {
     exitsys();
     return -2;
@@ -75,7 +75,7 @@ int doOperation(int argc, char** argv) {
       printf("too many arguments.\n");
       return -1;
     } else {
-      ls_();
+      showList();
       return 0;
     }
   }
@@ -85,7 +85,7 @@ int doOperation(int argc, char** argv) {
       printf("usage %s [file name]\n", argv[0]);
       return -1;
     } else {
-      rm_(argv[1]);
+      deleteFile(argv[1]);
       return 0;
     }
   }
@@ -155,7 +155,7 @@ int doOperation(int argc, char** argv) {
       printf("usage %s [directory name]\n", argv[0]);
       return -1;
     } else {
-      cd_(argv[1]);
+      changeDirectory(argv[1]);
       return 0;
     }
   }
@@ -200,7 +200,7 @@ void run() {
     printf("System boot successfully, type \" help \" for help\n");
     while (1) {
       argv = getInstruction(&argc);
-      flag = doOperation(argc, argv);
+      flag = command(argc, argv);
       if (flag == -2) break;
     }
     return;

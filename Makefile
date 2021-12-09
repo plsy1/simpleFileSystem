@@ -1,7 +1,7 @@
 OUTDIR=./out
 
-fs:main.o shell.o str.o function.o list.o disk.o
-	cc -o fs $(OUTDIR)/main.o $(OUTDIR)/shell.o $(OUTDIR)/str.o $(OUTDIR)/function.o $(OUTDIR)/list.o $(OUTDIR)/disk.o
+bin:main.o shell.o str.o function.o list.o disk.o
+	cc -o bin $(OUTDIR)/main.o $(OUTDIR)/shell.o $(OUTDIR)/str.o $(OUTDIR)/function.o $(OUTDIR)/list.o $(OUTDIR)/disk.o
 
 main.o:main.c 
 	cc -c main.c

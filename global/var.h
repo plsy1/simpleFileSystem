@@ -4,6 +4,7 @@
 
 #include "../util/list.h"
 #include "define.h"
+
 typedef struct BLOCKZERO {
   char id[10];
   char info[200];
@@ -12,16 +13,16 @@ typedef struct BLOCKZERO {
   int rootFCB;
 } BLOCKZERO;
 
+//文件控制块
 typedef struct FCB {
   char name[FILE_NAME_LEN];
   unsigned type : 1;
   unsigned use : 1;
-  unsigned short time;
-  unsigned short date;
   unsigned int base;
   unsigned int len;
 } FCB;
 
+//一个目录下的文件构成的FCBList
 typedef struct FCBList {
   FCB fcb_entry;
   lslink link;
@@ -29,7 +30,7 @@ typedef struct FCBList {
 
 //每个FATitem大小为2B
 typedef struct FATitem {
-  signed short item : 16;
+  signed short item;
 } FATitem;
 
 typedef struct useropen {
